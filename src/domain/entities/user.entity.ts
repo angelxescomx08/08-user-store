@@ -11,7 +11,7 @@ export class UserEntity {
     public img?: string,
   ) {}
 
-  static fromObject(obj: Record<string,unknown>): UserEntity {
+  static fromObject(obj: any): UserEntity {
     const { id, _id, name, email, emailValidated, password, role, img } = obj;
 
     if(!id || !_id)throw CustomError.badRequest("User id is required");
