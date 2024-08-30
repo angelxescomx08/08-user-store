@@ -20,8 +20,15 @@ export class AuthService {
 
       const {password, ...rest} = UserEntity.fromObject(user);
 
+      const token = await JwtAdapter.generateToken({
+        id: user._id,
+      });
+  
+      if(!token)throw CustomError.internalServer('Error while generating token');
+
       return {
         user: {...rest},
+        token
       };
     } catch (error) {
       throw CustomError.internalServer(`${error}`);
@@ -42,8 +49,7 @@ export class AuthService {
     const {password, ...rest} = UserEntity.fromObject(user);
 
     const token = await JwtAdapter.generateToken({
-      id: user._id, 
-      email: user.email
+      id: user._id,
     });
 
     if(!token)throw CustomError.internalServer('Error while generating token');
